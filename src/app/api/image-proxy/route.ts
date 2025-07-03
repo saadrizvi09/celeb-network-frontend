@@ -41,7 +41,9 @@ headers: {
  status: 200,
  });
 
- } catch (error: any) {
+ } 
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ catch (error: any) {
 
  console.error('Image proxy error:', error);
 

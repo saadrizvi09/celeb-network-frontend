@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Loader2 as Loader2Icon, HeartOff as HeartOffIcon, LogOutIcon } from 'lucide-react';
 import { api } from '../../lib/api';
 import { UserProfile, Celebrity } from '../../lib/types';
+import Link from 'next/link';
 
 interface FanDashboardProps {
   user: UserProfile;
@@ -35,7 +36,9 @@ const FanDashboard: React.FC<FanDashboardProps> = ({ user, onLogout }) => {
       setFollowedCelebrities(processedData);
       console.log("FanDashboard: Followed celebrities fetched and state set to:", processedData);
       
-    } catch (err: any) {
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ catch (err: any) {
       console.error("Error fetching followed celebrities:", err);
       setFollowedError(err.message || "Failed to load followed celebrities.");
       setFollowedCelebrities([]); 
@@ -59,9 +62,10 @@ const FanDashboard: React.FC<FanDashboardProps> = ({ user, onLogout }) => {
 
     try {
       await api.unfollowCelebrity(celebrityId);
-      // Re-fetch the list to update the UI
       await fetchFollowedCelebrities();
-    } catch (err: any) {
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+catch (err: any) {
       console.error("Failed to unfollow celebrity from dashboard:", err);
       alert(`Failed to unfollow: ${err.message}`);
     } finally {
@@ -90,7 +94,7 @@ const FanDashboard: React.FC<FanDashboardProps> = ({ user, onLogout }) => {
         ) : followedError ? (
           <p className="text-red-500 text-lg">{followedError}</p>
         ) : followedCelebrities.length === 0 ? (
-          <p className="text-gray-600">You are not following any celebrities yet. Go to the <a href="/" className="text-blue-600 hover:underline">homepage</a> to discover some!</p>
+          <p className="text-gray-600">You are not following any celebrities yet. Go to the <Link href="/" className="text-blue-600 hover:underline">homepage</Link> to discover some!</p>
         ) : (
           <div className="grid grid-cols-1 gap-4 mt-6">
             {followedCelebrities.map((celeb, index) => {

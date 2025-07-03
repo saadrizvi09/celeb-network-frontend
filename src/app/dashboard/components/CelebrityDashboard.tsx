@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Loader2 as Loader2Icon, LogOut as LogOutIcon } from 'lucide-react';
 import { api } from '../../lib/api'; 
 import { UserProfile, Celebrity } from '../../lib/types'; 
+import Image from 'next/image';
 
 interface CelebrityDashboardProps {
   user: UserProfile;
@@ -28,7 +29,9 @@ const CelebrityDashboard: React.FC<CelebrityDashboardProps> = ({ user, onLogout 
           } else {
             setCelebrityError(`No celebrity profile found with the name "${user.username}".`);
           }
-        } catch (err: any) {
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any 
+        catch (err: any) {
           console.error("Error fetching celebrity profile by name:", err);
           setCelebrityError(err.message || `Failed to load celebrity profile for ${user.username}.`);
         } finally {
@@ -59,7 +62,7 @@ const CelebrityDashboard: React.FC<CelebrityDashboardProps> = ({ user, onLogout 
           <p className="text-red-500 text-lg">{celebrityError}</p>
         ) : celebrityData ? (
           <div className="bg-purple-100 p-6 rounded-lg shadow-inner text-left mx-auto max-w-md">
-            <img
+            <Image
               src={
                 celebrityData.profileImageUrl
                   ? celebrityData.profileImageUrl.startsWith('data:image/')
@@ -104,7 +107,7 @@ const CelebrityDashboard: React.FC<CelebrityDashboardProps> = ({ user, onLogout 
             )}
           </div>
         ) : (
-          <p className="text-gray-600">No celebrity profile found for this user's username.</p>
+          <p className="text-gray-600">No celebrity profile found for this user username.</p>
         )}
 
         <button

@@ -13,6 +13,7 @@ import {
 
 import { api } from '../../lib/api'; 
 import { Celebrity } from '../../lib/types'; 
+import Image from 'next/image';
 
 export default function CelebrityProfilePage() {
   const params = useParams();
@@ -35,7 +36,9 @@ export default function CelebrityProfilePage() {
       try {
         const data = await api.getCelebrityById(celebrityId);
         setCelebrity(data);
-      } catch (err: any) {
+      } 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      catch (err: any) {
         setError(err.message);
         console.error("Error fetching celebrity profile:", err);
       } finally {
@@ -55,7 +58,9 @@ export default function CelebrityProfilePage() {
       await api.generatePdf(celebrity.id);
       setPdfStatus('success');
       setPdfMessage('PDF generated and downloaded successfully!');
-    } catch (err: any) {
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    catch (err: any) {
       setPdfStatus('error');
       setPdfMessage(`Error generating PDF: ${err.message}`);
       console.error("PDF generation error:", err);
@@ -84,7 +89,7 @@ export default function CelebrityProfilePage() {
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden md:flex">
         <div className="md:w-1/3 p-6 flex flex-col items-center justify-center bg-gray-50">
-          <img
+          <Image
             src={celebrity.profileImageUrl || `https://placehold.co/400x400/e2e8f0/64748b?text=${celebrity.name.split(' ')[0]}`}
             alt={celebrity.name}
             className="w-48 h-48 rounded-full object-cover border-4 border-blue-300 shadow-md"
