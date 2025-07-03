@@ -1,24 +1,24 @@
-
+// app/celebrities/[id]/page.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation'; 
+import { useParams, useRouter } from 'next/navigation';
 import {
   ArrowLeft as ArrowLeftIcon,
   Loader2 as Loader2Icon,
   CheckCircle2 as CheckCircle2Icon,
   XCircle as XCircleIcon,
-  FileText as FileTextIcon 
+  FileText as FileTextIcon
 } from 'lucide-react';
 
-import { api } from '../../lib/api'; 
-import { Celebrity } from '../../lib/types'; 
+import { api } from '../../lib/api';
+import { Celebrity } from '../../lib/types';
 import Image from 'next/image';
 
 export default function CelebrityProfilePage() {
   const params = useParams();
   const router = useRouter();
-  const celebrityId = params.id as string; 
+  const celebrityId = params.id as string;
 
   const [celebrity, setCelebrity] = useState<Celebrity | null>(null);
   const [loading, setLoading] = useState(true);
@@ -36,7 +36,7 @@ export default function CelebrityProfilePage() {
       try {
         const data = await api.getCelebrityById(celebrityId);
         setCelebrity(data);
-      } 
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       catch (err: any) {
         setError(err.message);
@@ -58,7 +58,7 @@ export default function CelebrityProfilePage() {
       await api.generatePdf(celebrity.id);
       setPdfStatus('success');
       setPdfMessage('PDF generated and downloaded successfully!');
-    } 
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     catch (err: any) {
       setPdfStatus('error');
@@ -78,10 +78,17 @@ export default function CelebrityProfilePage() {
   );
   if (!celebrity) return <div className="text-center p-8 text-gray-600">Celebrity not found.</div>;
 
+  // --- ADD THIS IMAGE PROXY LOGIC HERE ---
+  const imageUrl = celebrity.profileImageUrl;
+  const finalImageUrl = imageUrl && !imageUrl.startsWith('data:image/')
+    ? `/api/image-proxy?url=${encodeURIComponent(imageUrl)}`
+    : imageUrl;
+  // --- END ADDED LOGIC ---
+
   return (
     <div className="container mx-auto p-8">
       <button
-        onClick={() => router.back()} 
+        onClick={() => router.back()}
         className="mb-6 flex items-center text-blue-600 hover:text-blue-800 transition-colors font-medium"
       >
         <ArrowLeftIcon size={20} className="mr-2" /> Back
@@ -90,10 +97,14 @@ export default function CelebrityProfilePage() {
       <div className="bg-white rounded-xl shadow-lg overflow-hidden md:flex">
         <div className="md:w-1/3 p-6 flex flex-col items-center justify-center bg-gray-50">
           <Image
-            src={celebrity.profileImageUrl || `https://placehold.co/400x400/e2e8f0/64748b?text=${celebrity.name.split(' ')[0]}`}
+            // --- USE finalImageUrl HERE ---
+            src={finalImageUrl || `https://placehold.co/400x400/e2e8f0/64748b?text=${encodeURIComponent(celebrity.name.split(' ')[0])}`}
             alt={celebrity.name}
             className="w-48 h-48 rounded-full object-cover border-4 border-blue-300 shadow-md"
-            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { (e.target as HTMLImageElement).src = `https://placehold.co/400x400/e2e8f0/64748b?text=${celebrity.name.split(' ')[0]}`; }}
+            // Make sure width and height are defined for Next/Image for better performance
+            width={192} // 48 units * 4 (tailwind's default conversion from rem to px for w-48)
+            height={192} // Assuming square image
+            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { (e.target as HTMLImageElement).src = `https://placehold.co/400x400/e2e8f0/64748b?text=${encodeURIComponent(celebrity.name.split(' ')[0])}`; }}
           />
           <h2 className="text-3xl font-bold text-gray-900 mt-4">{celebrity.name}</h2>
           <p className="text-blue-600 text-lg">
@@ -103,7 +114,7 @@ export default function CelebrityProfilePage() {
                   const parsedCategory = celebrity.category;
                   return Array.isArray(parsedCategory) ? parsedCategory.join(', ') : celebrity.category;
                 } catch {
-                  return celebrity.category; 
+                  return celebrity.category;
                 }
               })()
             }
