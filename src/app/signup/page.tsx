@@ -47,7 +47,9 @@ export default function CelebritySignupPage() {
     try {
       const suggestions = await api.suggestCelebrities(aiQuery);
       setAiSuggestions(suggestions);
-    } catch (err: any) {
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+catch (err: any) {
       setSuggestionError(err.message);
       console.error("Error suggesting celebrities:", err);
     } finally {
@@ -69,11 +71,14 @@ export default function CelebritySignupPage() {
         } else if (key === 'category') {
           setValue('category', Array.isArray(value) ? (value[0] || '') : (value as string));
         } else if (key in createCelebritySchema.shape) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
             setValue(key as keyof z.infer<typeof createCelebritySchema>, value as any);
         }
       });
       setAutofillError(null);
-    } catch (err: any) {
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ catch (err: any) {
       setAutofillError(`Autofill failed: ${err.message}. Check console for details.`);
       console.error("Autofill data parsing/fetch error:", err);
       reset({ name: celebrityName });
@@ -84,6 +89,7 @@ export default function CelebritySignupPage() {
     setSubmitStatus(null);
     setSubmitMessage('');
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const submitData: any = { ...data };
 
       if (typeof submitData.sampleSetlistOrKeynoteTopics === 'string') {
@@ -104,7 +110,9 @@ export default function CelebritySignupPage() {
       setSubmitStatus('success');
       setSubmitMessage('Celebrity profile created successfully!');
       reset();
-    } catch (err: any) {
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+catch (err: any) {
       setSubmitStatus('error');
       setSubmitMessage(`Error creating profile: ${err.message}`);
       console.error("Form submission error:", err);

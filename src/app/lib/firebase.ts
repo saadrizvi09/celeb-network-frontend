@@ -1,6 +1,6 @@
 // app/lib/firebase.ts
 import { initializeApp, FirebaseApp } from 'firebase/app';
-import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, Auth } from 'firebase/auth';
+import { getAuth, signInAnonymously, signInWithCustomToken, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 
 // Declare global variables provided by the Canvas environment
@@ -32,7 +32,6 @@ export const initializeFirebaseAndAuth = async (): Promise<FirebaseInitResult> =
   }
 
   try {
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
     const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
 
     if (!firebaseConfig || Object.keys(firebaseConfig).length === 0) {

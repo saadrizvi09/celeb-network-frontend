@@ -78,7 +78,9 @@ export const api = {
         (celeb) => celeb.name.toLowerCase() === name.toLowerCase()
       );
       return foundCelebrity || null;
-    } catch (error: any) {
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    catch (error: any) {
       console.error(`Error in getCelebrityByName for ${name}:`, error);
       throw new Error(error.message || `Failed to fetch celebrity details for ${name}`);
     }
@@ -145,14 +147,18 @@ export const api = {
       window.URL.revokeObjectURL(url);
 
       return true;
-    } catch (error: any) {
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    catch (error: any) {
       console.error("Error in generatePdf API call:", error);
       throw new Error(`PDF generation failed: ${error.message}`);
     }
   },
 
   
-  followCelebrity: async (celebrityId: string): Promise<any> => {
+  followCelebrity: async (celebrityId: string):
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ Promise<any> => {
     const response = await fetch(`${BACKEND_API_BASE_URL}/follows/${celebrityId}`, {
       method: 'POST',
       headers: getAuthHeaders(),
@@ -195,7 +201,9 @@ export const api = {
       console.log("API: getFollowedCelebrities directly returning:", followedCelebrities);
       return followedCelebrities;
 
-    } catch (error: any) {
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    catch (error: any) {
       console.error("API: Error in getFollowedCelebrities:", error);
       throw error;
     }

@@ -95,7 +95,9 @@ export default function LoginPage() {
 
       console.log("LoginPage: Redirecting to dashboard.");
       window.location.href = '/dashboard';
-    } catch (err: any) {
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    catch (err: any) {
       console.error("LoginPage: Authentication failed:", err);
       setError(err.message || 'Authentication failed. Please try again.');
     } finally {

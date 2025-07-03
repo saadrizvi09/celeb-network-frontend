@@ -2,8 +2,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Loader2 as Loader2Icon, LogOut as LogOutIcon } from 'lucide-react';
-import { api, setAuthToken } from '../lib/api'; 
+import { Loader2 as Loader2Icon} from 'lucide-react';
+import {  setAuthToken } from '../lib/api'; 
 import { UserProfile } from '../lib/types'; 
 
 import FanDashboard from './components/FanDashboard';
@@ -43,7 +43,9 @@ export default function DashboardPage() {
           console.error("DashboardPage: Invalid user data structure in localStorage, clearing session.");
           throw new Error("Invalid user data in localStorage.");
         }
-      } catch (e: any) {
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       catch (e: any) {
         console.error("DashboardPage: Failed to parse user data from localStorage:", e);
         setError("Failed to load user session. Please log in again.");
         localStorage.removeItem('authToken'); 
@@ -64,7 +66,9 @@ export default function DashboardPage() {
       setAuthToken(null); 
       console.log("DashboardPage: User signed out, redirecting to login.");
       window.location.href = '/login';
-    } catch (err: any) {
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any 
+    catch (err: any) {
       console.error("DashboardPage: Logout failed:", err);
       setError("Failed to log out. Please try again.");
       setLoading(false);

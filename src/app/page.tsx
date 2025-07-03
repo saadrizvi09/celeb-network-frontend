@@ -83,7 +83,9 @@ export default function HomePage() {
             const validFollowedIds = new Set(followed.filter(celeb => celeb && typeof celeb.id === 'string').map(celeb => celeb.id));
             setFollowedCelebrityIds(validFollowedIds);
             console.log("HomePage: Followed celebrity IDs set to:", validFollowedIds); // CRITICAL LOG
-          } catch (followedErr: any) {
+          }
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ catch (followedErr: any) {
             console.error("HomePage: Error fetching followed celebrities for homepage:", followedErr);
             setFollowedCelebrityIds(new Set());
           }
@@ -91,7 +93,9 @@ export default function HomePage() {
           setFollowedCelebrityIds(new Set()); // Ensure empty set if not a fan or not logged in
         }
 
-      } catch (err: any) {
+      } 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+catch (err: any) {
         setError(err.message);
         console.error("HomePage: General error fetching data:", err);
       } finally {
@@ -151,7 +155,9 @@ export default function HomePage() {
         });
         console.log(`Followed celebrity ${celebrityId}`);
       }
-    } catch (err: any) {
+    } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+catch (err: any) {
       console.error("Failed to toggle follow status:", err);
       alert(`Failed to update follow status: ${err.message || "Please try again."}`);
     } finally {
