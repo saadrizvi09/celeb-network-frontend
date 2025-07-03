@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2 as Loader2Icon, Heart as HeartIcon, HeartCrack as HeartCrackIcon } from 'lucide-react';
 import { api, setAuthToken } from './lib/api';
 import { Celebrity, UserProfile } from './lib/types';
+import Image from 'next/image';
 
 export default function HomePage() {
   const router = useRouter();
@@ -171,10 +172,7 @@ export default function HomePage() {
   };
 
   // Filter handlers
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
+ 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategoryFilter(e.target.value);
   };
@@ -262,7 +260,7 @@ export default function HomePage() {
               key={celeb.id}
               className="bg-white text-black rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden relative"
             >
-              <img
+              <Image
                 src={finalImageUrl || `https://placehold.co/400x300/e2e8f0/64748b?text=${encodeURIComponent(celeb.name)}`}
                 alt={celeb.name}
                 className="w-full h-48 object-contain"

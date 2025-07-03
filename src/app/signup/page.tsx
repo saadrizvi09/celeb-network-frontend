@@ -36,7 +36,6 @@ export default function CelebritySignupPage() {
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [suggestionError, setSuggestionError] = useState<string | null>(null);
-  const [loadingAutofill, setLoadingAutofill] = useState(false);
   const [autofillError, setAutofillError] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
   const [submitMessage, setSubmitMessage] = useState('');
@@ -147,10 +146,8 @@ export default function CelebritySignupPage() {
                   <span className="text-gray-800 font-medium">{suggestion}</span>
                   <button
                     onClick={() => handleAutofill(suggestion)}
-                    disabled={loadingAutofill}
                     className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                   >
-                    {loadingAutofill ? <Loader2Icon className="animate-spin mr-2" size={16} /> : null}
                     Autofill
                   </button>
                 </div>
