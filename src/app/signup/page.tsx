@@ -219,10 +219,11 @@ catch (err: any) {
         </div>
 
         <div>
-          <label htmlFor="profileImageUrl" className="block text-sm font-medium  text-black mb-1">Profile Image URL</label>
+          <label htmlFor="profileImageUrl" className="block text-sm font-medium  text-black mb-1">Profile Image URL . AI cannot give Image URL due to copyright restictions. So fill this on your own </label>
           <input
             type="url"
             id="profileImageUrl"
+            placeholder="AI cannot give Image URL due to copyright restictions. So fill this on your own"
             {...register('profileImageUrl')}
             className="w-full p-3 border border-gray-300  text-black rounded-lg focus:ring-blue-500 focus:border-blue-500"
           />
