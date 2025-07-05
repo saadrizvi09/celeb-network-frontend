@@ -59,7 +59,6 @@ export default function CelebrityProfilePage() {
       setPdfStatus('success');
       setPdfMessage('PDF generated and downloaded successfully!');
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     catch (err: any) {
       setPdfStatus('error');
       setPdfMessage(`Error generating PDF: ${err.message}`);
@@ -78,12 +77,10 @@ export default function CelebrityProfilePage() {
   );
   if (!celebrity) return <div className="text-center p-8 text-gray-600">Celebrity not found.</div>;
 
-  // --- ADD THIS IMAGE PROXY LOGIC HERE ---
   const imageUrl = celebrity.profileImageUrl;
   const finalImageUrl = imageUrl && !imageUrl.startsWith('data:image/')
     ? `/api/image-proxy?url=${encodeURIComponent(imageUrl)}`
     : imageUrl;
-  // --- END ADDED LOGIC ---
 
   return (
     <div className="container mx-auto p-8">
@@ -97,13 +94,11 @@ export default function CelebrityProfilePage() {
       <div className="bg-white rounded-xl shadow-lg overflow-hidden md:flex">
         <div className="md:w-1/3 p-6 flex flex-col items-center justify-center bg-gray-50">
           <Image
-            // --- USE finalImageUrl HERE ---
             src={finalImageUrl || `https://placehold.co/400x400/e2e8f0/64748b?text=${encodeURIComponent(celebrity.name.split(' ')[0])}`}
             alt={celebrity.name}
             className="w-48 h-48 rounded-full object-cover border-4 border-blue-300 shadow-md"
-            // Make sure width and height are defined for Next/Image for better performance
-            width={192} // 48 units * 4 (tailwind's default conversion from rem to px for w-48)
-            height={192} // Assuming square image
+            width={192} 
+            height={192} 
             onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { (e.target as HTMLImageElement).src = `https://placehold.co/400x400/e2e8f0/64748b?text=${encodeURIComponent(celebrity.name.split(' ')[0])}`; }}
           />
           <h2 className="text-3xl font-bold text-gray-900 mt-4">{celebrity.name}</h2>
