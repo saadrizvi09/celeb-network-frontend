@@ -6,6 +6,7 @@ import { api, setAuthToken } from '../lib/api';
 import { signinSchema, signupSchema } from '../lib/auth';
 import { UserProfile } from '../lib/types'; 
 import { z } from 'zod';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -15,7 +16,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  
+    const router = useRouter(); 
+
   const decodeJwt = (token: string) => {
     try {
       const base64Url = token.split('.')[1];
@@ -44,7 +46,7 @@ export default function LoginPage() {
         if (user && user.id && user.username && (user.role === 'fan' || user.role === 'celebrity')) {
           setAuthToken(storedToken); // Set token for API calls
           console.log("LoginPage: Valid session found, redirecting to dashboard.");
-          window.location.href = '/dashboard';
+         router.replace('/dashboard');
         } else {
           console.warn("LoginPage: Invalid user data in localStorage, clearing session.");
           localStorage.removeItem('authToken');
@@ -94,7 +96,7 @@ export default function LoginPage() {
       setAuthToken(accessToken); 
 
       console.log("LoginPage: Redirecting to dashboard.");
-      window.location.href = '/dashboard';
+      router.replace('/dashboard');
     } 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     catch (err: any) {
